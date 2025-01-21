@@ -1,20 +1,21 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
+import { useRef, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import axios from 'axios'
-import Event from '../components/Event'
+import Attraction from '../components/Attraction'
 
-const HomeScreen = () => {
-    const cityRef = useRef("Glasgow");
+const ArtistScreen = () => {
+    const artistRef = useRef("Shirley");
     // const [city, setCity] = useState("");
-    const [events, setEvents] = useState("");
+    const [attractions, setAttractions] = useState("");
 
-    async function fetchApiDataHandler() {
+    async function fetchApiArtistDataHandler() {
         try {
             let apiKey = process.env.REACT_APP_EVENTS_API_KEY;
-            let cityName = cityRef.current?.value;
-            // let url = `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=${apiKey}`;
-            let url = `https://app.ticketmaster.com/discovery/v2/events.json?city=${cityName}&apikey=${apiKey}`;
+            let artistName = artistRef.current?.value;
+            // https://app.ticketmaster.com/discovery/v2/attractions.json?keyword=craig+ferguson&apikey=9DPRDD4vWY6hAf0o8GonFnEt2zYuDvHb
+            let url = `https://app.ticketmaster.com/discovery/v2/attractions.json?keyword=${artistName}&apikey=${apiKey}`;
             let response = await axios({
                 url,
                 method: 'GET',
@@ -24,16 +25,8 @@ const HomeScreen = () => {
             });
 
             if (response.status === 200) {
-                let eventList = [...response.data._embedded.events]
-                // let eventList = [...response.data._embedded.events]
-
-                // let eventNames = eventList.map((e) => e.name);
-                setEvents(eventList);
-                console.log(eventList);
-                console.log(response.data);
-                console.log(response);
-                // console.log(eventNames);
-                // console.log(response.status);
+                let attractionList = [...response.data._embedded.attractions];
+                setAttractions(attractionList);
             }
 
         } catch (error) {
@@ -49,19 +42,19 @@ const HomeScreen = () => {
                     <div className='gap-2 mt-6 flex items-baseline'>
                         <div className='grid grid-cols-12 w-full'>
                             <div className='col-start-4 col-end-10 col-span-6 space-x-4'>
-                                <label htmlFor="city" className=''>Enter city name </label>
-                                <input type="text" ref={cityRef} id='city' />
-                                <button onClick={fetchApiDataHandler} className='bg-blue text-white px-4 py-2'>Search</button>
+                                <label htmlFor="city" className=''>Enter artist name </label>
+                                <input type="text" ref={artistRef} id='city' />
+                                <button onClick={fetchApiArtistDataHandler} className='bg-blue text-white px-4 py-2'>Search</button>
                             </div>
                         </div>
                     </div>
                     <div className='mt-6'>
                         <div className='grid grid-cols-12 '>
                             <div className='col-start-3 col-end-8 col-span-5 font-semibold text-xl'>
-                                Events:
+                                Results:
                             </div>
                         </div>
-                        {events ? events.map((e) => (<Event event={e} key={e.id} />)) : ""}
+                        {attractions ? attractions.map((e) => (<Attraction attraction={e} key={e.id} />)) : ""}
                     </div>
                 </div>
                 <Footer />
@@ -70,4 +63,4 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default ArtistScreen

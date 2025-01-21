@@ -4,7 +4,7 @@ import { getDay, getMonth, convertTimeTo12HourFormat, getDayOfWeek } from '../fu
 const Event = ({ event }) => {
     return (
         <div className='grid grid-cols-12 mb-10'>
-            <div className='col-start-3 col-end-9 col-span-6 mt-3 p-8 flex flex-row gap-2 border hover:bg-slate-300 shadow-md'>
+            <div className='col-start-3 col-end-9 col-span-6 mt-3 p-8 flex flex-row gap-2 border hover:bg-slate-300 shadow-md '>
                 <div className='flex flex-col text-center text-lg'>
                     <div>{getMonth(event.dates.start.localDate)}</div>
                     <div>{getDay(event.dates.start.localDate)}</div>
@@ -12,7 +12,7 @@ const Event = ({ event }) => {
                 <div className='ml-4 '>
                     <img src={event.images[3].url} alt="event" width={200} height={115} />
                 </div>
-                <div className='ml-4 flex-grow '>
+                <div className='ml-4 flex-grow leading-6'>
                     <div className='flex gap-3 text-sm space-x-2'>
                         <div> {getDayOfWeek(event.dates.start.localDate)}</div>
                         <li> {convertTimeTo12HourFormat(event.dates.start.localTime)}</li>
